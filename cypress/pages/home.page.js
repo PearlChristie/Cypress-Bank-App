@@ -1,12 +1,24 @@
 export class HomePage{
-
-elements = {
-    hsbcLogo : () => cy.get('.header-logo > a > img'),
-    privacyHeader : () => cy.get('.lg-7 > .footer-supplementary > :nth-child(3) > a'),
-    bankingOptionNav : () => cy.get('ul.row > :nth-child(1) > .header-mobile-doormat-0 > .header-main-navigation-title'),
-    creditCardSubMenu : () => cy.get('h2[@class="doormat-heading"][normalize-space()="Credit Cards"])[1]'),
-
+ 
+// Page Objects - Web Elements and their locations
+getHsbcLogo(){
+  return cy.get('.header-logo > a > img');
 }
+
+getPrivacyHeader() {
+  return cy.get('.lg-7 > .footer-supplementary > :nth-child(3) > a');
+}
+
+getBankingOptionNav(){
+  return cy.get('ul.row > :nth-child(1) > .header-mobile-doormat-0 > .header-main-navigation-title');
+}
+
+getcreditCardSubMenu(){
+  return cy.get('h2[@class="doormat-heading"][normalize-space()="Credit Cards"])[1]');
+}
+
+ //  --------------------------------------------------------------------------------------------------
+    // Methods - Are the actions to perform on the same page objects above in the login page
 
 visitCreditCardSubMenu(){
  this.elements.bankingOptionNav().invoke('show')
