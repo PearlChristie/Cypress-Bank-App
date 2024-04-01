@@ -26,11 +26,11 @@ export class ATMSearchPage{
   }
 
   getShowMoreResultsButton(){
-      return cy.get('#username_submit_btn');
+      return cy.xpath('//button[@aria-label="Show more results"]').click();
     }
 
   getSearchResultTwo(){
-    cy.get(':nth-child(2) > .S4y5MRLMz5P7VsczpZwj');
+    return cy.get(':nth-child(2) > .S4y5MRLMz5P7VsczpZwj');
   }
   
     // Methods - Are the actions to perform on the same page objects above in the login page
@@ -42,8 +42,8 @@ export class ATMSearchPage{
     
     searchForNearestBranch(country){
       this.visitATMSearchPage();
-      this.elements.branchATMLocatorButton().click();
-      this.elements.branchFinderSearchBox().click();
-      this.elements.branchFinderSearchBox().type(country);
+      this.getBranchATMLocatorButton().click();
+      this.getBranchFinderSearchBox().click();
+      this.getBranchFinderSearchBox().type(country);
     }
 }

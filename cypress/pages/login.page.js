@@ -2,6 +2,7 @@
 export class LoginPage{
       
     // Page Objects - Web Elements and their locations
+
     getUsername() {
         return cy.get('#username');
       }
@@ -38,27 +39,26 @@ export class LoginPage{
 
     
     verifyHeader(){
-            const headers = ['Banking', 'Borrowing', 'Investing', 'NRI', 'Offers', 'Online Banking']
+            const headers = ['Banking', 'Borrowing', 'Investing', 'NRI', 'Offers', 'Online Banking'];
             headers.forEach(header => {
               cy.get('.row').children()
                  .should('contain', header);
-        })
+        })}
  
-    }
 
     enterUserName(username){
-        this.username().clear();
-        this.username().type(username);
+        this.getUsername().clear();
+        this.getUsername().type(username);
         
     }
 
     openToolTip(){
-        this.getUsernameCloseTooltip().click();
+        this.getUsernameCloseTooltip().click({ force: true });
       
     }
 
    closeToolTip(){
-        this.getUsernameCloseTooltip().click();
+         this.getUsernameCloseTooltip().click({ force: true });
    }
 
 }

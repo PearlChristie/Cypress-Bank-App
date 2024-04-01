@@ -46,7 +46,7 @@ export class CreditCardPage{
   }
 
   getCreditCardCompareButton(){
-    return cy.get('.A-BTNP-RW-ALL');
+    return cy.xpath('//button[@class="A-BTNP-RW-ALL"]');
   }
 
   getCreditCardImage1(){
@@ -62,28 +62,26 @@ export class CreditCardPage{
   }
 
   getCreditCardOfferSelected(){
-    return cy.get('.tile-selector');
+    return cy.get('.tile-selector').invoke('css', 'visibility', 'visible');
   }
 
   getRemoveCard1() {
-    return cy.get(':nth-child(1) > .A-TYPS7R-RW-DEV');
+    return cy.xpath('(//a[@class="A-TYPS7R-RW-DEV link-icon clear-icon"])[1]').invoke('css', 'visibility', 'visible');
   }
 
   getRemoveCard2(){
-    return cy.get(':nth-child(2) > .A-TYPS7R-RW-DEV');
+    return cy.xpath('(//a[@class="A-TYPS7R-RW-DEV link-icon clear-icon"])[2]').invoke('css', 'visibility', 'visible');
   }
 
   getRemoveCard3(){
-    return cy.get(':nth-child(3) > .A-TYPS7R-RW-DEV');
+    return cy.xpath('(//a[@class="A-TYPS7R-RW-DEV link-icon clear-icon"])[3]').invoke('css', 'visibility', 'visible');
   }
 
   getAddCardLink(){
-    return cy.get(':nth-child(3) > .A-TYPS7R-RW-DEV');
+   // (//a[@class="A-TYPS7R-RW-DEV link-icon add-icon"])[1]
+    return cy.xpath('(//a[@class="A-TYPS7R-RW-DEV link-icon add-icon"])[1]').invoke('css', 'visibility', 'visible');
   }
 
-  getAddThirdCard(){
-    return cy.get('[data-product-type="premier-mastercard-credit-card"] > .container-title-checkbox > .modal-checkbox');
-  }
 // ------------------------------------------------------------------------------------------------------------------------
     // Methods - Are the actions to perform on the same page objects above in the login page
 
@@ -92,12 +90,40 @@ export class CreditCardPage{
    
     } 
 
-    verifyCreditCardOfferOptions(){
-      this.elements.creditCardFirstCompareCardsButton().should('exist');
-      this.elements.creditCardFirstFindOutMoreButton().should('exist');
-      this.elements.creditCardFirstApplyNowButton().should('exist');
+    visitCompareCardsSideBySide(){
+      cy.visit('/compare/premier-mastercard-credit-card/#?pc-products=cashback-credit-card');
     }
 
+    verifyCreditCardOfferOptions(){
+      this.getCreditCardFirstCompareCardsButton().should('exist');
+      this.getCreditCardFirstFindOutMoreButton().should('exist');
+      this.getCreditCardFirstApplyNowButton().should('exist');
+    }
+
+    selectCreditCardOffersFromModule(){
+      this. getCreditCardOfferSelected().eq(0).click();
+      this. getCreditCardOfferSelected().eq(1).click();
+      this. getCreditCardCompareButton().click({ force: true });
+
+    }
+
+    compareCards(){
+      this.getCreditCardFirstCompareCardsButton().click();
+    }
+
+    addNewCard(){
+      this.getCreditCardOfferSelected().eq(2).click();
+      this.getCreditCardCompareButton().click({ force: true });
+    }
+
+    cancelSelection(){
+      this.getAddCardLink().click({ force: true });
+      this.getCreditCardsToCompareCloseButton();
+    }
+
+    removeCard(){
+      this.getRemoveCard2().click({ force: true });
+    }
   
     
    

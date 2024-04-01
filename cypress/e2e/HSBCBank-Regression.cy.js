@@ -1,3 +1,4 @@
+/// to work on assertions in separate class and fixtures for data
 /// <reference types='cypress'/>
 import { describe, it } from 'mocha';
 import { LoginPage } from "../pages/login.page.js"
@@ -5,6 +6,7 @@ import { ATMSearchPage } from "../pages/atmSearch.page.js";
 import { HomePage } from "../pages/home.page.js";
 import { CreditCardPage } from '../pages/creditCardOptions.page.js';
 import { beforeEach } from "mocha";
+
 
 
 const homePg = new HomePage()
@@ -15,20 +17,20 @@ const creditCardPg = new CreditCardPage()
 describe('Bank App Regression Test Suite', () => {
 
   beforeEach(() => {
-    cy.viewport(1280, 1280);
+    cy.viewport(1280, 1200);
     cy.visit('/');
-    cy.wait(1000);
+    cy.wait(10000);
   });
  
   
-  it.only ('Visit HSBC', () => {
-    cy.contains('HSBC').should ('be.visible');
+  it.only('Visit HSBC', () => {
     loginPg.verifyHeader();
+    cy.contains('HSBC').should('be.visible')
   });
 
   it('Verify Social Media Icons', () => {
    cy.scrollTo('bottomRight');
-   cy.get('.social-link').should('have.length', '4');
+   loginPg.getSocialLinks().should('have.length', '4');
  })
 
   it('Verify Initial State of Login Page', () => {
@@ -37,8 +39,7 @@ describe('Bank App Regression Test Suite', () => {
     loginPg.getRememberMeCheckbox().should('not.be.checked');
     loginPg.getLogInButton().should('be.disabled');
     
-    cy.fixture('example').then ( (data) => {
-    loginPg.enterUserName('data.username');
+    loginPg.enterUserName(data.username);
     loginPg.getLogInButton().should('be.enabled');
   
     loginPg.openToolTip();
@@ -79,62 +80,36 @@ it('Validate Privacy Page Header', () => {
 
 it('Validate Compare Cards Module', () => {
   creditCardPg.visitCreditCardPage();
-  creditCardPg.getCreditCardFirstCompareCardsButton().click();
+  creditCardPg.compareCards();
+
   creditCardPg.getCreditCardsToCompareCloseButton().should('exist');
   creditCardPg.getCreditCardToCompareHeader().contains('Select cards to compare');
   creditCardPg.getCreditCardCountToCompare().should('have.length', '3');
-
-  creditCardPg.getCreditCardOfferSelected().should('contain.text', "Credit Card")
-    .eq(0).click();
-  creditCardPg.getCreditCardOfferSelected().should('contain.text', "Credit Card")
-    .eq(1).click();
-  creditCardPg.getCreditCardCompareButton().click();
-
-  //verify images
-  creditCardPg.getCreditCardFirstImage().should('exist');
-  creditCardPg.getCreditCardImage2().should('exist');
-
-  //verify remove links
-  creditCardPg.getRemoveCard1().should('exist');
-  creditCardPg.getRemoveCard2().should('exist'); 
-
-  it('Add New Card', () => {
-  //add card link
-  creditCardPg.getAddCardLink().click();
-
-  //select third card
-  creditCardPg.getAddThirdCard().click();
-  creditCardPg.getCreditCardCompareButton().click();
-
-  // verify images
-   creditCardPg.getCreditCardImage1().should('exist');
-   creditCardPg.getCreditCardImage2().should('exist');
-   creditCardPg.getCreditCardImage3().should('exist');
   
-   //verify remove links
-    creditCardPg.getRemoveCard1().should('exist');
-    creditCardPg.getRemoveCard2().should('exist');
-    creditCardPg.getRemoveCard3().should('exist');
-  });
-
-
-  it('Remove a Card', () => {
-    creditCardPg.getRemoveCard3().click();
-    creditCardPg.getCreditCardImage2().should('exist');
-    creditCardPg.getCreditCardImage3().should('exist');
-  });
-
-
-  it('Cancel Selection of Card Offer', () =>{
-    creditCardPg.getAddThirdCard().click();
-    creditCardPg.getCreditCardsToCompareCloseButton();
-
-  });
-   
-  });
-
-
 });
+
+it('Select Credit Card Offers', () => {
+  creditCardPg.visitCreditCardPage();
+  creditCardPg.compareCards();
+  creditCardPg.selectCreditCardOffersFromModule();
+  creditCardPg.getCreditCardOfferSelected().should('contain.text', "Credit Card").eq(0).click();
+  creditCardPg.getCreditCardOfferSelected().should('contain.text', "Credit Card").eq(1).click();
+ 
+  creditCardPg.getCreditCardImage1().should('exist');
+  creditCardPg.getCreditCardImage2().should('exist');
+  creditCardPg.getRemoveCard1().should('exist');
+  creditCardPg.getRemoveCard2().should('exist');
+
+  creditCardPg.getAddCardLink().click({ force: true });
+  creditCardPg.addNewCard();
+  creditCardPg.removeCard();
+  creditCardPg.cancelSelection();
+  
+});
+
+
+   
+
 
 
 

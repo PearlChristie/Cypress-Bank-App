@@ -1,7 +1,6 @@
 {
   "username": "bank123",
-  "headers" : "['Banking', 'Borrowing', 'Investing', 'NRI', 'Offers', 'Online Banking']",
-  "country" : "India"
+  "headers" : "['Banking', 'Borrowing', 'Investing', 'NRI', 'Offers', 'Online Banking']"
  }
 
 

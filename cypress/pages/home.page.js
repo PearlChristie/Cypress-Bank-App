@@ -21,13 +21,13 @@ getcreditCardSubMenu(){
     // Methods - Are the actions to perform on the same page objects above in the login page
 
 visitCreditCardSubMenu(){
- this.elements.bankingOptionNav().invoke('show')
+ this.getBankingOptionNav().invoke('show')
  cy.contains('Credit Cards').click({force: true});
 
     }
   
 navigateToPrivacyStatement(){
-  this.elements.privacyHeader().click();
+  this.getPrivacyHeader().click();
 }
   
   } 
